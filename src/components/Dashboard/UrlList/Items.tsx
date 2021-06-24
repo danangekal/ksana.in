@@ -25,6 +25,7 @@ import { IUrlListProps } from 'components/Dashboard/UrlList'
 import { ErrorDataNotFound } from 'components/Error/ErrorDataNotFound'
 import { LoadingSkeleton } from './LoadingSkeleton'
 import { IUrl } from 'interfaces/IUrl'
+import SharePopover from './SharePopover'
 
 const copy: any = dynamic((): any => import('copy-to-clipboard'), { ssr: false })
 
@@ -32,6 +33,8 @@ export function Items({ user, isFormVisible, onShowForm }: IUrlListProps) {
   const { showAlert, hideAlert } = useAlertContext()
   const [updateId, setUpdateId] = useState<string>('')
   const [updateSlug, setUpdateSlug] = useState<string>('')
+  const isSupportShare: boolean =
+    typeof window !== 'undefined' ? navigator.share !== undefined : false
 
   const bgBox = useColorModeValue('white', 'gray.800')
   const bgInput = useColorModeValue('blackAlpha.100', 'whiteAlpha.100')
@@ -59,7 +62,9 @@ export function Items({ user, isFormVisible, onShowForm }: IUrlListProps) {
 
       navigator
         .share(shareObj)
+        // eslint-disable-next-line no-console
         .then(() => console.log('Successful share', shareObj))
+        // eslint-disable-next-line no-console
         .catch((error) => console.log('Error sharing', error, shareObj))
     }
   }
@@ -81,7 +86,21 @@ export function Items({ user, isFormVisible, onShowForm }: IUrlListProps) {
 
   const handleClickSave = async () => {
     if (updateSlug) {
-      await patchSlug({ id: updateId, slug: sanitizeSlug(updateSlug) })
+      const { error } = await patchSlug({
+        id: updateId,
+        slug: sanitizeSlug(updateSlug),
+        userId: user?.id
+      })
+
+      if (error) {
+        showAlert({
+          title: 'Terjadi galat pada saat memperbarui data',
+          message: `Pesan: ${error.message}`,
+          onClose: () => {
+            hideAlert()
+          }
+        })
+      }
 
       mutate(apiUrlsGet(user?.id))
       setUpdateId('')
@@ -90,7 +109,19 @@ export function Items({ user, isFormVisible, onShowForm }: IUrlListProps) {
   }
 
   const onConfimDelete = async (id: string) => {
-    await deleteUrl({ id: id })
+    const { error } = await deleteUrl({ id: id, userId: user?.id })
+
+    if (error) {
+      hideAlert()
+
+      showAlert({
+        title: 'Terjadi galat pada saat berusaha menghapus data',
+        message: `Pesan: ${error.message}`,
+        onClose: () => {
+          hideAlert()
+        }
+      })
+    }
 
     hideAlert()
     mutate(apiUrlsGet(user?.id))
@@ -156,6 +187,7 @@ export function Items({ user, isFormVisible, onShowForm }: IUrlListProps) {
                     aria-label="Simpan slug"
                     size="lg"
                     bg="orange.400"
+                    borderRadius="md"
                     icon={<HiSave color="#FFF" />}
                   />
                 </HStack>
@@ -179,17 +211,23 @@ export function Items({ user, isFormVisible, onShowForm }: IUrlListProps) {
                   aria-label="Copy"
                   fontSize="20px"
                   variant="ghost"
+                  borderRadius="md"
                   icon={<HiDuplicate color="#ED8936" />}
                 />
-                <IconButton
-                  onClick={() => {
-                    handleShare(`${HOME}${d.slug}`)
-                  }}
-                  aria-label="Copy"
-                  fontSize="20px"
-                  variant="ghost"
-                  icon={<HiShare color="#ED8936" />}
-                />
+                {isSupportShare ? (
+                  <IconButton
+                    onClick={() => {
+                      handleShare(`${HOME}${d.slug}`)
+                    }}
+                    aria-label="Copy"
+                    fontSize="20px"
+                    variant="ghost"
+                    borderRadius="md"
+                    icon={<HiShare color="#ED8936" />}
+                  />
+                ) : (
+                  <SharePopover url={`${HOME}${d.slug}`} />
+                )}
                 <IconButton
                   onClick={() => {
                     handleClickEdit(d.id)
@@ -197,6 +235,7 @@ export function Items({ user, isFormVisible, onShowForm }: IUrlListProps) {
                   aria-label="Ubah"
                   fontSize="20px"
                   variant="ghost"
+                  borderRadius="md"
                   icon={<HiPencil color="#ED8936" />}
                 />
                 <IconButton
@@ -206,6 +245,7 @@ export function Items({ user, isFormVisible, onShowForm }: IUrlListProps) {
                   aria-label="Hapus"
                   fontSize="20px"
                   variant="ghost"
+                  borderRadius="md"
                   icon={<HiTrash color="#ED8936" />}
                 />
               </HStack>

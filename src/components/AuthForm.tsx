@@ -15,8 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { FcGoogle } from 'react-icons/fc'
 
-import { sendEvent } from 'libs/splitbee'
-import { supabase, setSessionToServer, loginWithGoogle } from 'libs/supabase'
+import { setSessionToServer, loginWithGoogle, login, register } from 'libs/supabase'
 import { useAlertContext } from 'context/Alert'
 import { forgetPasword, dashboard } from 'constants/paths'
 import { EVENT_SIGN_IN } from 'constants/common'
@@ -35,6 +34,7 @@ export function AuthForm({ state }: IAuthFormProps) {
   const router = useRouter()
   const { showAlert, hideAlert } = useAlertContext()
 
+  const bgBox = useColorModeValue('white', 'gray.700')
   const [internalState, setInternalState] = useState<any>(state)
   const [isLogin, setIsLogin] = useState<any>(state === 'login')
 
@@ -132,22 +132,20 @@ export function AuthForm({ state }: IAuthFormProps) {
   }
 
   const handleLogin = async () => {
-    const { session, error } = await supabase.auth.signIn({
+    const { session, error } = await login({
       email: email,
       password: password
     })
 
-    sendEvent('Login')
     processResponse({ session, error, stateType: 'login' })
   }
 
   const handleRegister = async () => {
-    const { session, error } = await supabase.auth.signUp({
+    const { session, error } = await register({
       email: email,
       password: password
     })
 
-    sendEvent('Register')
     processResponse({ session, error, stateType: 'register' })
   }
 
@@ -162,7 +160,7 @@ export function AuthForm({ state }: IAuthFormProps) {
           {isLogin ? 'Masuk ke akunmu' : 'Daftarkan akun baru'}
         </Heading>
       </Stack>
-      <Box rounded={'lg'} bg={useColorModeValue('white', 'gray.700')} boxShadow={'lg'} p={8}>
+      <Box rounded={'lg'} bg={bgBox} boxShadow={'lg'} p={8}>
         <Stack spacing={4}>
           <FormControl id="email" isRequired>
             <FormLabel>Email</FormLabel>

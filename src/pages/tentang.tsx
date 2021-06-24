@@ -1,10 +1,11 @@
+import Image from 'next/image'
 import {
   VStack,
   Heading,
   Text,
-  Image,
   Box,
   Link,
+  Image as ImageChakra,
   Container,
   SimpleGrid,
   useColorModeValue,
@@ -59,7 +60,10 @@ function About() {
 
   return (
     <Layout>
-      <MetaHead title="Tentang Kami | Ksana.in" />
+      <MetaHead
+        title="Tentang Kami | Ksana.in"
+        description="Ksana.in adalah layanan pemendek tautan / URL yang gratis dan mudah untuk digunakan, buatan asli anak Indonesia"
+      />
       <VStack spacing={2} textAlign="center" as="section" mt="32">
         <Heading
           as="h1"
@@ -69,14 +73,15 @@ function About() {
         >
           Tentang Kami
         </Heading>
-        <Image w="200px" src={'/images/orange/ksana.svg'}></Image>
+        <Image width={200} height={122} src={'/images/orange/ksana.svg'} alt="Ksana.in" />
       </VStack>
       <Container maxW={'4xl'} mx="auto" as="section" mt="8">
         <VStack spacing={4}>
           <Text color={colorText}>
-            {BRAND} adalah proyek yang dibuat oleh Irfan Maulana dalam rangka mempelajari layanan
-            baru dari Supabase.io, membuat sesuatu untuk bisa mengimplementasikan langsung apa yang
-            ingin dipelajari.
+            {BRAND} adalah layanan pemendek tautan / URL yang gratis dan mudah untuk digunakan.
+            Layanan ini diinisiasi oleh Irfan Maulana dalam rangka mempelajari layanan baru dari
+            Supabase.io, membuat sesuatu projek nyata untuk bisa mengimplementasikan langsung apa
+            yang memang sedang ingin dipelajari.
           </Text>
           <Text color={colorText}>
             {BRAND} tidak bisa dibuat tanpa beberapa layanan dan alat bantu berikut:
@@ -129,7 +134,9 @@ function About() {
             >
               ksana.in/gh
             </Link>
-            <Image src={'https://img.shields.io/github/stars/mazipan/ksana.in?style=social'} />
+            <ImageChakra
+              src={'https://img.shields.io/github/stars/mazipan/ksana.in?style=social'}
+            />
           </HStack>
           <Text color={colorText}>
             Untuk mendukung saya dan {BRAND} terus berkreasi membuat kode terbuka lainnya, kalian
@@ -139,7 +146,7 @@ function About() {
               rel="noopener noreferrer"
               color="orange.400"
               fontWeight="bold"
-              href="https://trakteer.id/mazipan?utm_source=ksana.id"
+              href="https://trakteer.id/mazipan/tip?utm_source=ksana"
             >
               Trakteer.id
             </Link>

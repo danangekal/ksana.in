@@ -1,12 +1,13 @@
 export const HOME: string = process.env.NEXT_PUBLIC_HOME || ''
-export const META_IMAGE: string = process.env.NEXT_PUBLIC_META_IMAGE || ''
-export const META_ICON: string = `${HOME}images/square/ksana-32x32.png`
-export const META_THUMBNAIL: string = `${HOME}images/square/ksana-192x192.png`
+export const META_IMAGE: string = `images/meta/meta-small.jpg`
+
+export const META_ICON: string = `${HOME}images/favicon/ksana-48x48.png`
 
 export const github: string = 'https://ksana.in/gh'
 export const splitbeeAnalytics: string = 'https://app.splitbee.io/public/ksana.in'
 export const tentang: string = '/tentang'
 export const dashboard: string = '/dashboard'
+export const blog: string = '/blog'
 export const kebijakanPrivasi: string = '/kebijakan-privasi'
 export const ketentuanLayanan: string = '/ketentuan-layanan'
 export const login: string = '/auth/sign-in'
@@ -19,6 +20,7 @@ export const apiCounter: string = '/api/counter'
 export const apiIsAuth: string = '/api/auth/is-authenticated'
 export const apiSetSession: string = '/api/auth/set-session'
 export const apiLogin: string = '/api/auth/login'
+export const apiRegister: string = '/api/auth/register'
 export const apiLogout: string = '/api/auth/logout'
 export const apiForgetPassword: string = '/api/auth/forget-password'
 export const apiSetNewPassword: string = '/api/auth/set-new-password'

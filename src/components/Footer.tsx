@@ -13,6 +13,7 @@ import {
   login,
   register,
   tentang,
+  blog,
   ketentuanLayanan,
   kebijakanPrivasi,
   github,
@@ -21,8 +22,10 @@ import {
 import { BRAND } from 'constants/texts'
 
 export function Footer() {
+  const boxColor = useColorModeValue('gray.700', 'gray.200')
+
   return (
-    <Box color={useColorModeValue('gray.700', 'gray.200')} as="footer" width="100%">
+    <Box color={boxColor} as="footer" width="100%">
       <svg
         className="waves"
         xmlns="http://www.w3.org/2000/svg"
@@ -52,8 +55,9 @@ export function Footer() {
                 Lebih banyak
               </Text>
               <Link href={tentang}>Tentang kami</Link>
+              <Link href={blog}>Blog</Link>
               <Link href={login}>Masuk</Link>
-              <Link href={register}>Mendaftar</Link>
+              <Link href={register}>Daftar</Link>
             </Stack>
 
             <Stack align={'flex-start'}>
