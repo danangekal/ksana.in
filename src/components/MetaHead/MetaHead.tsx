@@ -20,14 +20,13 @@ export function MetaHead({
     <Head>
       <meta
         name="viewport"
-        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
       />
       <meta name="robots" content={robots} />
       <title>{title}</title>
       <meta name="description" content={description} key="description" />
 
       <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link rel="preconnect" href="https://hive.splitbee.io" />
       <link rel="preconnect" href="https://cdn.splitbee.io" />
 
       <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png" />
